@@ -1,3 +1,7 @@
+/**
+ * VL6180X TOF sensor
+ */
+//% weight=100 color=#0fbc11 icon=""
 namespace VL6180X {
     let address = 0x29
 
@@ -72,6 +76,11 @@ namespace VL6180X {
         writeReg(0x0014, 0x24) // Configures interrupt on 'New Sample Ready threshold event'
     }
 
+    
+    /**
+         * Initialize the sensor.
+         */
+    //% block="Initialize"
     export function init(): void {
         serial.writeLine("Initializing sensor...")
         if (readReg(0x000) != 0xB4) {
@@ -91,6 +100,10 @@ namespace VL6180X {
         return address
     }
 
+    /**
+         * Read range from the sensor.
+         */
+    //% block="Read range"
     export function readRange(): number {
         startRange()
         while (!isRangeComplete()) {
@@ -149,6 +162,10 @@ namespace VL6180X {
         writeReg(0x024, offset) // SYSRANGE_PART_TO_PART_RANGE_OFFSET
     }
 
+    /**
+         * Get Model ID from the sensor.
+         */
+    //% block="Get ID"
     export function getID(): number {
         return readReg(0x000) // IDENTIFICATION_MODEL_ID
     }
